@@ -21,6 +21,9 @@
 		"fabric-datagen": [
 			"com.oldviking.cat_armor.CatArmorDataGenerator"
 		],
+		"client": [
+			"com.oldviking.cat_armor.CatArmorClient"
+		],
 		"mm:early_risers": [
 			"com.oldviking.cat_armor.EarlyRiser"
 		]
