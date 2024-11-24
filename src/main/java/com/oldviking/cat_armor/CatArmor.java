@@ -1,7 +1,7 @@
-package com.oldviking;
+package com.oldviking.cat_armor;
 
-import com.oldviking.item.ModItems;
-import com.oldviking.util.ModRegistries;
+import com.oldviking.cat_armor.item.ModItems;
+import com.oldviking.cat_armor.util.ModRegistries;
 import net.fabricmc.api.ModInitializer;
 
 import org.slf4j.Logger;

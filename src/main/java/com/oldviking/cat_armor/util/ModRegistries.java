@@ -1,4 +1,4 @@
-package com.oldviking.util;
+package com.oldviking.cat_armor.util;
 
 public class ModRegistries {
     public static void registerModRegistries() {
