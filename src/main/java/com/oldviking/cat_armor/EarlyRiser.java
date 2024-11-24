@@ -15,7 +15,7 @@ public class EarlyRiser implements Runnable {
 
         String mappedClassName = remapper.mapClassName("intermediary", "net.minecraft.class_4059$class_9076");
         String soundEvents = 'L' + remapper.mapClassName("intermediary", "net.minecraft.class_3414")+ ';';
-        Function<Identifier, Identifier> function = (id) -> { return Identifier.of("textures/entity/cat/cat_armor"); };
+        Function<Identifier, Identifier> function = (id) -> Identifier.of("cat_armor", "textures/entity/cat/cat_armor");
         ClassTinkerers.enumBuilder(mappedClassName, Function.class, soundEvents)
                 .addEnum("FELINE", () -> new Object[] { function, SoundEvents.ITEM_WOLF_ARMOR_BREAK })
                 .build();

@@ -50,16 +50,16 @@ public abstract class CatEntityMixin extends TameableEntity {
             shift = At.Shift.AFTER), cancellable = true)
     private void applyCatAmor(PlayerEntity player, Hand hand, CallbackInfoReturnable<ActionResult> cir) {
         if (!this.getWorld().isClient) {
-            if (player.getStackInHand(hand).getItem() == ModItems.CAT_ARMOR && this.getBodyArmor().isEmpty() && !this.isBaby()) {
+            if (player.getStackInHand(hand).getItem() == ModItems.CAT_ARMOR && this.getBodyArmor().isEmpty() && !this.isBaby() && isOwner(player)) {
                 this.equipBodyArmor(player.getStackInHand(hand).copyWithCount(1));
                 player.getStackInHand(hand).decrementUnlessCreative(1, player);
 
                 this.setCollarColor(DyeColor.GREEN); // TODO REMOVE AFTER TESTING
 
                 cir.setReturnValue(ActionResult.SUCCESS);
-            } else if (player.getStackInHand(hand).getItem() == Items.SHEARS && !this.getBodyArmor().isEmpty()) {
+            } else if (player.getStackInHand(hand).getItem() == Items.SHEARS && !this.getBodyArmor().isEmpty() && isOwner(player)) {
                 cir.setReturnValue(removeCatArmor(player.getStackInHand(hand), player, hand));
-            } else if (ArmorMaterials.ARMADILLO.value().repairIngredient().get().test(player.getStackInHand(hand)) && this.isInSittingPose() && this.hasArmor() && this.getBodyArmor().isDamaged()) {
+            } else if (ArmorMaterials.ARMADILLO.value().repairIngredient().get().test(player.getStackInHand(hand)) && this.isInSittingPose() && this.hasArmor() && this.getBodyArmor().isDamaged() && isOwner(player)) {
                 cir.setReturnValue(repairCatArmor(player.getStackInHand(hand), player, hand));
             }
         }
