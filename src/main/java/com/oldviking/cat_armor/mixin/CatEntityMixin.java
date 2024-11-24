@@ -1,5 +1,6 @@
 package com.oldviking.cat_armor.mixin;
 
+import com.oldviking.cat_armor.item.ModItems;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.damage.DamageSource;
@@ -49,7 +50,7 @@ public abstract class CatEntityMixin extends TameableEntity {
             shift = At.Shift.AFTER), cancellable = true)
     private void applyCatAmor(PlayerEntity player, Hand hand, CallbackInfoReturnable<ActionResult> cir) {
         if (!this.getWorld().isClient) {
-            if (player.getStackInHand(hand).getItem() == Items.WOLF_ARMOR && this.getBodyArmor().isEmpty() && !this.isBaby()) {
+            if (player.getStackInHand(hand).getItem() == ModItems.CAT_ARMOR && this.getBodyArmor().isEmpty() && !this.isBaby()) {
                 this.equipBodyArmor(player.getStackInHand(hand).copyWithCount(1));
                 player.getStackInHand(hand).decrementUnlessCreative(1, player);
 
@@ -106,7 +107,7 @@ public abstract class CatEntityMixin extends TameableEntity {
 
     @Unique
     public boolean hasArmor() {
-        return this.getBodyArmor().isOf(Items.WOLF_ARMOR);
+        return this.getBodyArmor().isOf(ModItems.CAT_ARMOR);
     }
 
     @Unique
