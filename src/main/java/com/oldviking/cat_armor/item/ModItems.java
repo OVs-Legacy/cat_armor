@@ -3,6 +3,8 @@ package com.oldviking.cat_armor.item;
 import com.chocohead.mm.api.ClassTinkerers;
 import com.oldviking.cat_armor.CatArmor;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
+import net.minecraft.client.color.item.ItemColors;
+import net.minecraft.component.type.DyedColorComponent;
 import net.minecraft.item.*;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;

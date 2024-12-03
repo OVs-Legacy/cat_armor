@@ -1,6 +1,5 @@
 package com.oldviking.cat_armor.util;
 
-import com.google.common.collect.Sets;
 import com.oldviking.cat_armor.CatArmor;
 import com.oldviking.cat_armor.entity.layer.ModModelLayers;
 import com.oldviking.cat_armor.item.ModItems;
@@ -13,7 +12,6 @@ import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.feature.FeatureRenderer;
 import net.minecraft.client.render.entity.feature.FeatureRendererContext;
 import net.minecraft.client.render.entity.model.CatEntityModel;
-import net.minecraft.client.render.entity.model.EntityModelLayer;
 import net.minecraft.client.render.entity.model.EntityModelLoader;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.component.type.DyedColorComponent;
@@ -27,7 +25,6 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.math.ColorHelper;
 
 import java.util.Map;
-import java.util.Set;
 
 @Environment(EnvType.CLIENT)
 public class CatArmorFeatureRenderer extends FeatureRenderer<CatEntity, CatEntityModel<CatEntity>> {
