@@ -53,9 +53,6 @@ public abstract class CatEntityMixin extends TameableEntity {
             if (player.getStackInHand(hand).getItem() == ModItems.CAT_ARMOR && this.getBodyArmor().isEmpty() && !this.isBaby() && isOwner(player)) {
                 this.equipBodyArmor(player.getStackInHand(hand).copyWithCount(1));
                 player.getStackInHand(hand).decrementUnlessCreative(1, player);
-
-                this.setCollarColor(DyeColor.GREEN); // TODO REMOVE AFTER TESTING
-
                 cir.setReturnValue(ActionResult.SUCCESS);
             } else if (player.getStackInHand(hand).getItem() == Items.SHEARS && !this.getBodyArmor().isEmpty() && isOwner(player)) {
                 cir.setReturnValue(removeCatArmor(player.getStackInHand(hand), player, hand));
