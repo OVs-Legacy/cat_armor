@@ -1,11 +1,11 @@
 {
-	"required": true,
-	"package": "com.oldviking.mixin",
-	"compatibilityLevel": "JAVA_21",
-	"mixins": [
-		"ExampleMixin"
-	],
-	"injectors": {
-		"defaultRequire": 1
+  "required": true,
+  "package": "com.oldviking.cat_armor.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "mixins": [
+    "CatEntityMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
 	}
 }
