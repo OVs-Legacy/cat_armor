@@ -4,12 +4,8 @@ import com.oldviking.cat_armor.item.ModItems;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.damage.DamageSource;
-import net.minecraft.entity.passive.CatEntity;
-import net.minecraft.entity.passive.Cracks;
-import net.minecraft.entity.passive.PassiveEntity;
-import net.minecraft.entity.passive.TameableEntity;
+import net.minecraft.entity.passive.*;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ArmorMaterials;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.particle.ItemStackParticleEffect;
@@ -34,8 +30,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(CatEntity.class)
 public abstract class CatEntityMixin extends TameableEntity {
-    @Shadow protected abstract void setCollarColor(DyeColor color);
-
     protected CatEntityMixin(EntityType<? extends TameableEntity> entityType, World world) {
         super(entityType, world);
     }
@@ -56,16 +50,16 @@ public abstract class CatEntityMixin extends TameableEntity {
                 cir.setReturnValue(ActionResult.SUCCESS);
             } else if (player.getStackInHand(hand).getItem() == Items.SHEARS && !this.getBodyArmor().isEmpty() && isOwner(player)) {
                 cir.setReturnValue(removeCatArmor(player.getStackInHand(hand), player, hand));
-            } else if (ArmorMaterials.ARMADILLO.value().repairIngredient().get().test(player.getStackInHand(hand)) && this.isInSittingPose() && this.hasArmor() && this.getBodyArmor().isDamaged() && isOwner(player)) {
+            } else if (this.getBodyArmor().canRepairWith(player.getStackInHand(hand)) && this.isInSittingPose() && this.hasArmor() && this.getBodyArmor().isDamaged() && isOwner(player)) {
                 cir.setReturnValue(repairCatArmor(player.getStackInHand(hand), player, hand));
             }
         }
     }
 
     @Override
-    protected void applyDamage(DamageSource source, float amount) {
+    protected void applyDamage(ServerWorld world, DamageSource source, float amount) {
         if (!this.shouldArmorAbsorbDamage(source)) {
-            super.applyDamage(source, amount);
+            super.applyDamage(world, source, amount);
         } else {
             ItemStack itemStack = this.getBodyArmor();
             int damage = itemStack.getDamage();
@@ -83,7 +77,10 @@ public abstract class CatEntityMixin extends TameableEntity {
         this.playSoundIfNotSilent(SoundEvents.ITEM_ARMOR_UNEQUIP_WOLF);
         ItemStack itemStack2 = this.getBodyArmor();
         this.equipBodyArmor(ItemStack.EMPTY);
-        this.dropStack(itemStack2);
+        World world = this.getWorld();
+        if (world instanceof ServerWorld serverWorld) {
+            this.dropStack(serverWorld, itemStack2);
+        }
         return ActionResult.SUCCESS;
     }
 
