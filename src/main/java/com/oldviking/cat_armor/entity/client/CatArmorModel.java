@@ -3,10 +3,11 @@ package com.oldviking.cat_armor.entity.client;
 import net.minecraft.client.model.*;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.entity.model.EntityModel;
+import net.minecraft.client.render.entity.state.EntityRenderState;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.Entity;
 
-public class CatArmorModel extends EntityModel<Entity> {
+public class CatArmorModel extends EntityModel<EntityRenderState> {
     private final ModelPart head;
     private final ModelPart body;
     private final ModelPart left_front_leg;
@@ -17,6 +18,7 @@ public class CatArmorModel extends EntityModel<Entity> {
     private final ModelPart tail2;
 
     public CatArmorModel(ModelPart root) {
+        super(root);
         this.head = root.getChild("head");
         this.body = root.getChild("body");
         this.left_front_leg = root.getChild("left_front_leg");
@@ -49,11 +51,14 @@ public class CatArmorModel extends EntityModel<Entity> {
         ModelPartData tail2 = modelPartData.addChild("tail2", ModelPartBuilder.create().uv(4, 15).cuboid(-0.5F, 0.0F, 0.0F, 1.0F, 8.0F, 1.0F, new Dilation(0.25F)), ModelTransform.of(0.0F, 15.5F, 16.0F, 1.5708F, 0.0F, 0.0F));
         return TexturedModelData.of(modelData, 64, 32);
     }
-    @Override
-    public void setAngles(Entity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
-    }
 
     @Override
+    public void setAngles(EntityRenderState state) {
+        super.setAngles(state);
+    }
+
+    // Redundant?
+/*    @Override
     public void render(MatrixStack matrices, VertexConsumer vertexConsumer, int light, int overlay, int color) {
         head.render(matrices, vertexConsumer, light, overlay, color);
         body.render(matrices, vertexConsumer, light, overlay, color);
@@ -63,5 +68,5 @@ public class CatArmorModel extends EntityModel<Entity> {
         right_hind_leg.render(matrices, vertexConsumer, light, overlay, color);
         tail1.render(matrices, vertexConsumer, light, overlay, color);
         tail2.render(matrices, vertexConsumer, light, overlay, color);
-    }
+    }*/
 }
