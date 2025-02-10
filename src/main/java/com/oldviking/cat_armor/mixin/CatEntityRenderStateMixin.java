@@ -1,7 +1,6 @@
 package com.oldviking.cat_armor.mixin;
 
 import com.oldviking.cat_armor.util.CatEntityRenderStateAccessor;
-import net.minecraft.client.render.entity.EntityRenderDispatcher;
 import net.minecraft.client.render.entity.state.CatEntityRenderState;
 import net.minecraft.client.render.entity.state.FelineEntityRenderState;
 import net.minecraft.item.ItemStack;

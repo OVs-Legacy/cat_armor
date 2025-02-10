@@ -54,10 +54,9 @@ public class CatArmorModel extends EntityModel<EntityRenderState> {
 
     @Override
     public void setAngles(EntityRenderState state) {
-        super.setAngles(state);
+
     }
 
-    // Redundant?
 /*    @Override
     public void render(MatrixStack matrices, VertexConsumer vertexConsumer, int light, int overlay, int color) {
         head.render(matrices, vertexConsumer, light, overlay, color);
