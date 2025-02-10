@@ -7,15 +7,18 @@ import net.minecraft.item.*;
 import net.minecraft.item.equipment.ArmorMaterials;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
+import net.minecraft.registry.RegistryKey;
+import net.minecraft.registry.RegistryKeys;
 import net.minecraft.util.Identifier;
 
 
 public class ModItems {
-    public static final Item CAT_ARMOR = registerItem("cat_armor",
-            new AnimalArmorItem(ArmorMaterials.ARMADILLO_SCUTE, ClassTinkerers.getEnum(AnimalArmorItem.Type.class, "FELINE"), new Item.Settings()));
+    public static final RegistryKey<Item> CAT_ARMOR_KEY = RegistryKey.of(RegistryKeys.ITEM, Identifier.of(CatArmor.MOD_ID, "cat_armor"));
+    public static final Item CAT_ARMOR = registerItem(CAT_ARMOR_KEY,
+            new AnimalArmorItem(ArmorMaterials.ARMADILLO_SCUTE, ClassTinkerers.getEnum(AnimalArmorItem.Type.class, "FELINE"), new Item.Settings().registryKey(CAT_ARMOR_KEY)));
 
-    private static Item registerItem(String name, Item item) {
-        return Registry.register(Registries.ITEM, Identifier.of(CatArmor.MOD_ID, name), item);
+    private static Item registerItem(RegistryKey<Item> registryKey, Item item) {
+        return Registry.register(Registries.ITEM, registryKey.getValue(), item);
     }
 
     public static void registerModItems() {
