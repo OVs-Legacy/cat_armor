@@ -2,77 +2,58 @@ package com.oldviking.cat_armor.util;
 
 import com.oldviking.cat_armor.CatArmor;
 import com.oldviking.cat_armor.entity.layer.ModModelLayers;
-import com.oldviking.cat_armor.item.ModItems;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.render.OverlayTexture;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.VertexConsumerProvider;
+import net.minecraft.client.render.entity.equipment.EquipmentModel;
+import net.minecraft.client.render.entity.equipment.EquipmentRenderer;
 import net.minecraft.client.render.entity.feature.FeatureRenderer;
 import net.minecraft.client.render.entity.feature.FeatureRendererContext;
 import net.minecraft.client.render.entity.model.CatEntityModel;
-import net.minecraft.client.render.entity.model.EntityModelLoader;
+import net.minecraft.client.render.entity.model.LoadedEntityModels;
+import net.minecraft.client.render.entity.state.CatEntityRenderState;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.component.type.DyedColorComponent;
-import net.minecraft.entity.passive.CatEntity;
+import net.minecraft.component.DataComponentTypes;
+import net.minecraft.component.type.EquippableComponent;
 import net.minecraft.entity.passive.Cracks;
-import net.minecraft.item.AnimalArmorItem;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.registry.tag.ItemTags;
+import net.minecraft.registry.RegistryKey;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.math.ColorHelper;
 
 import java.util.Map;
 
 @Environment(EnvType.CLIENT)
-public class CatArmorFeatureRenderer extends FeatureRenderer<CatEntity, CatEntityModel<CatEntity>> {
-    private final CatEntityModel<CatEntity> model;
+public class CatArmorFeatureRenderer extends FeatureRenderer<CatEntityRenderState, CatEntityModel> {
+    private final CatEntityModel model;
+    private final EquipmentRenderer equipmentRenderer;
     private static final Map<Cracks.CrackLevel, Identifier> CRACK_TEXTURES;
 
-    public CatArmorFeatureRenderer(FeatureRendererContext<CatEntity, CatEntityModel<CatEntity>> context, EntityModelLoader loader) {
+    public CatArmorFeatureRenderer(FeatureRendererContext<CatEntityRenderState, CatEntityModel> context, LoadedEntityModels loader, EquipmentRenderer equipmentRenderer) {
         super(context);
-        this.model = new CatEntityModel<>(loader.getModelPart(ModModelLayers.CAT_ARMOR));
+        this.model = new CatEntityModel(loader.getModelPart(ModModelLayers.CAT_ARMOR));
+        this.equipmentRenderer = equipmentRenderer;
     }
 
     @Override
-    public void render(MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider, int light, CatEntity catEntity, float limbAngle, float limbDistance, float tickDelta, float animationProgress, float headYaw, float headPitch) {
-        if (catEntity.getBodyArmor().isOf(ModItems.CAT_ARMOR)) {
-            ItemStack itemStack = catEntity.getBodyArmor();
-            Item bodyArmor = itemStack.getItem();
-            if (bodyArmor instanceof AnimalArmorItem) {
-                AnimalArmorItem animalArmorItem = (AnimalArmorItem) bodyArmor;
-                if (animalArmorItem.getType() == AnimalArmorItem.Type.valueOf("FELINE")) {
-                    ((CatEntityModel) this.getContextModel()).copyStateTo(this.model);
-                    this.model.animateModel(catEntity, limbAngle, limbDistance, tickDelta);
-                    this.model.setAngles(catEntity, limbAngle, limbDistance, animationProgress, headYaw, headPitch);
-                    VertexConsumer vertexConsumer = vertexConsumerProvider.getBuffer(RenderLayer.getEntityCutoutNoCull(animalArmorItem.getEntityTexture()));
-                    this.model.render(matrixStack, vertexConsumer, light, OverlayTexture.DEFAULT_UV);
-                    this.renderDyed(matrixStack, vertexConsumerProvider, light, itemStack, animalArmorItem);
-                    this.renderCracks(matrixStack, vertexConsumerProvider, light, itemStack);
-                    return;
-                }
-            }
+    public void render(MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, CatEntityRenderState state, float limbAngle, float limbDistance) {
+        ItemStack bodyArmor = ((CatEntityRenderStateAccessor) state).getBodyArmor();
+        EquippableComponent equippableComponent = bodyArmor.get(DataComponentTypes.EQUIPPABLE);
+        if(equippableComponent != null && equippableComponent.assetId().isPresent()) {
+            CatEntityModel catEntityModel = this.model;
+            catEntityModel.setAngles(state);
+            //TODO Change Layer Type?
+            this.equipmentRenderer.render(EquipmentModel.LayerType.WOLF_BODY, equippableComponent.assetId().get(), catEntityModel, bodyArmor, matrices, vertexConsumers, light);
+            this.renderCracks(matrices, vertexConsumers, light, bodyArmor, catEntityModel);
         }
     }
 
-    private void renderDyed(MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider, int light, ItemStack itemStack, AnimalArmorItem animalArmorItem) {
-        if (itemStack.isIn(ItemTags.DYEABLE)) {
-            int i = DyedColorComponent.getColor(itemStack, 0);
-            if (ColorHelper.Argb.getAlpha(i) == 0) return;
-
-            Identifier identifier = animalArmorItem.getOverlayTexture();
-            if (identifier == null) return;
-
-            this.model.render(matrixStack, vertexConsumerProvider.getBuffer(RenderLayer.getEntityCutoutNoCull(identifier)), light, OverlayTexture.DEFAULT_UV, ColorHelper.Argb.fullAlpha(i));
-        }
-    }
-
-    private void renderCracks(MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider, int light, ItemStack itemStack) {
+    private void renderCracks(MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider, int light, ItemStack itemStack, CatEntityModel catEntityModel) {
         Cracks.CrackLevel crackLevel = Cracks.WOLF_ARMOR.getCrackLevel(itemStack);
         if (crackLevel != Cracks.CrackLevel.NONE) {
-            Identifier identifier = (Identifier) CRACK_TEXTURES.get(crackLevel);
+            Identifier identifier = CRACK_TEXTURES.get(crackLevel);
             VertexConsumer vertexConsumer = vertexConsumerProvider.getBuffer(RenderLayer.getEntityTranslucent(identifier));
             this.model.render(matrixStack, vertexConsumer, light, OverlayTexture.DEFAULT_UV);
         }
