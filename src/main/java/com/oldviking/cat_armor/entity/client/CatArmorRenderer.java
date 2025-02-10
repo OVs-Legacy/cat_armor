@@ -2,6 +2,7 @@ package com.oldviking.cat_armor.entity.client;
 
 import com.oldviking.cat_armor.CatArmor;
 import com.oldviking.cat_armor.util.CatArmorFeatureRenderer;
+import com.oldviking.cat_armor.util.CatEntityRenderStateAccessor;
 import net.minecraft.client.render.entity.CatEntityRenderer;
 import net.minecraft.client.render.entity.EntityRendererFactory;
 import net.minecraft.client.render.entity.feature.ArmorFeatureRenderer;
@@ -20,5 +21,11 @@ public class CatArmorRenderer extends CatEntityRenderer {
     @Override
     public Identifier getTexture(CatEntityRenderState catEntityRenderState) {
         return catEntityRenderState.texture;
+    }
+
+    @Override
+    public void updateRenderState(CatEntity catEntity, CatEntityRenderState catEntityRenderState, float f) {
+        super.updateRenderState(catEntity, catEntityRenderState, f);
+        ((CatEntityRenderStateAccessor)catEntityRenderState).setBodyArmor(catEntity.getBodyArmor().copy());
     }
 }

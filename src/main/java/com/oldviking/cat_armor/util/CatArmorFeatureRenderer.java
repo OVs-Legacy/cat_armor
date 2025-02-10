@@ -1,5 +1,6 @@
 package com.oldviking.cat_armor.util;
 
+import com.chocohead.mm.api.ClassTinkerers;
 import com.oldviking.cat_armor.CatArmor;
 import com.oldviking.cat_armor.entity.layer.ModModelLayers;
 import net.fabricmc.api.EnvType;
@@ -23,6 +24,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.util.Identifier;
 
+import java.util.Arrays;
 import java.util.Map;
 
 @Environment(EnvType.CLIENT)
@@ -44,7 +46,7 @@ public class CatArmorFeatureRenderer extends FeatureRenderer<CatEntityRenderStat
         if(equippableComponent != null && equippableComponent.assetId().isPresent()) {
             CatEntityModel catEntityModel = this.model;
             catEntityModel.setAngles(state);
-            //TODO Change Layer Type?
+            //TODO Change Layer Type? TO: ClassTinkerers.getEnum(EquipmentModel.LayerType.class, "CAT_BODY")
             this.equipmentRenderer.render(EquipmentModel.LayerType.WOLF_BODY, equippableComponent.assetId().get(), catEntityModel, bodyArmor, matrices, vertexConsumers, light);
             this.renderCracks(matrices, vertexConsumers, light, bodyArmor, catEntityModel);
         }

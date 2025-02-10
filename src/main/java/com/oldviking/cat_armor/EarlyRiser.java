@@ -11,6 +11,7 @@ public class EarlyRiser implements Runnable {
     public void run() {
         MappingResolver remapper = FabricLoader.getInstance().getMappingResolver();
 
+        //region AnimalArmorItem.Type
         String mappedClassName = remapper.mapClassName("intermediary", "net.minecraft.class_4059$class_9076");
         String soundEvents = 'L' + remapper.mapClassName("intermediary", "net.minecraft.class_3414")+ ';';
         String entityType = 'L' + remapper.mapClassName("intermediary", "net.minecraft.class_1299")+ ';';
@@ -18,5 +19,14 @@ public class EarlyRiser implements Runnable {
         ClassTinkerers.enumBuilder(mappedClassName, soundEvents, "["+entityType)
                 .addEnum("FELINE", () -> new Object[] { SoundEvents.ITEM_WOLF_ARMOR_BREAK, new EntityType[] { EntityType.CAT } })
                 .build();
+        //endregion
+
+        //region
+        String mappedClassNameForLayer = remapper.mapClassName("intermediary", "net.minecraft.class_10186$class_10190");
+
+        ClassTinkerers.enumBuilder(mappedClassNameForLayer, String.class)
+                .addEnum("CAT_BODY", () -> new Object[] { "cat_body" })
+                .build();
+        //endregion
     }
 }

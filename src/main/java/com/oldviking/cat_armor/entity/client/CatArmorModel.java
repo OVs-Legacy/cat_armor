@@ -56,16 +56,4 @@ public class CatArmorModel extends EntityModel<EntityRenderState> {
     public void setAngles(EntityRenderState state) {
 
     }
-
-/*    @Override
-    public void render(MatrixStack matrices, VertexConsumer vertexConsumer, int light, int overlay, int color) {
-        head.render(matrices, vertexConsumer, light, overlay, color);
-        body.render(matrices, vertexConsumer, light, overlay, color);
-        left_front_leg.render(matrices, vertexConsumer, light, overlay, color);
-        right_front_leg.render(matrices, vertexConsumer, light, overlay, color);
-        left_hind_leg.render(matrices, vertexConsumer, light, overlay, color);
-        right_hind_leg.render(matrices, vertexConsumer, light, overlay, color);
-        tail1.render(matrices, vertexConsumer, light, overlay, color);
-        tail2.render(matrices, vertexConsumer, light, overlay, color);
-    }*/
 }
