@@ -1,0 +1,13 @@
+{
+  "layers": {
+    "cat_body": [
+      {
+        "texture": "cat_armor:cat_armor"
+      },
+      {
+        "dyeable": {},
+        "texture": "cat_armor:cat_armor_overlay"
+      }
+    ]
+  }
+}
