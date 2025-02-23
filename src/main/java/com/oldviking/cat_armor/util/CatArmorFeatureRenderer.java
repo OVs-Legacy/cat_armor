@@ -14,6 +14,7 @@ import net.minecraft.client.render.entity.equipment.EquipmentRenderer;
 import net.minecraft.client.render.entity.feature.FeatureRenderer;
 import net.minecraft.client.render.entity.feature.FeatureRendererContext;
 import net.minecraft.client.render.entity.model.CatEntityModel;
+import net.minecraft.client.render.entity.model.FelineEntityModel;
 import net.minecraft.client.render.entity.model.LoadedEntityModels;
 import net.minecraft.client.render.entity.state.CatEntityRenderState;
 import net.minecraft.client.util.math.MatrixStack;
@@ -61,8 +62,8 @@ public class CatArmorFeatureRenderer extends FeatureRenderer<CatEntityRenderStat
         Cracks.CrackLevel crackLevel = Cracks.WOLF_ARMOR.getCrackLevel(itemStack);
         if (crackLevel != Cracks.CrackLevel.NONE) {
             Identifier identifier = CRACK_TEXTURES.get(crackLevel);
-            VertexConsumer vertexConsumer = vertexConsumerProvider.getBuffer(RenderLayer.getEntityTranslucent(identifier));
-            this.model.render(matrixStack, vertexConsumer, light, OverlayTexture.DEFAULT_UV);
+            VertexConsumer vertexConsumer = vertexConsumerProvider.getBuffer(RenderLayer.createArmorTranslucent(identifier));
+            model.render(matrixStack, vertexConsumer, light, OverlayTexture.DEFAULT_UV);
         }
     }
 
