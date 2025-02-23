@@ -14,19 +14,16 @@ import net.minecraft.client.render.entity.equipment.EquipmentRenderer;
 import net.minecraft.client.render.entity.feature.FeatureRenderer;
 import net.minecraft.client.render.entity.feature.FeatureRendererContext;
 import net.minecraft.client.render.entity.model.CatEntityModel;
-import net.minecraft.client.render.entity.model.FelineEntityModel;
 import net.minecraft.client.render.entity.model.LoadedEntityModels;
 import net.minecraft.client.render.entity.state.CatEntityRenderState;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.component.type.EquippableComponent;
 import net.minecraft.entity.passive.Cracks;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.equipment.EquipmentAsset;
 import net.minecraft.item.equipment.EquipmentAssetKeys;
 import net.minecraft.registry.RegistryKey;
-import net.minecraft.registry.RegistryKeys;
 import net.minecraft.util.Identifier;
 
 import java.util.Arrays;
@@ -53,6 +50,9 @@ public class CatArmorFeatureRenderer extends FeatureRenderer<CatEntityRenderStat
         if(equippableComponent != null && equippableComponent.assetId().isPresent()) {
             CatEntityModel catEntityModel = this.model;
             catEntityModel.setAngles(state);
+            // This should be done differently, right?
+            matrices.scale(0.8F, 0.8F, 0.8F);
+            matrices.translate(0.0F, 0.38F, 0.0F);
             this.equipmentRenderer.render(ClassTinkerers.getEnum(EquipmentModel.LayerType.class, "CAT_BODY"), CAT_ARMOR_KEY, catEntityModel, bodyArmor, matrices, vertexConsumers, light);
             this.renderCracks(matrices, vertexConsumers, light, bodyArmor, catEntityModel);
         }
