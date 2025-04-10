@@ -31,17 +31,17 @@ public class CatArmorModel extends CatEntityModel {
         modelPartData.addChild("head", ModelPartBuilder.create().uv(0, 0).cuboid("main", -2.5F, -2.0F, -3.0F, 5.0F, 4.0F, 5.0F, new Dilation(0.25F))
                 .uv(0, 24).cuboid("nose", -1.5F, -0.001F, -4.0F, 3.0F, 2.0F, 2.0F, new Dilation(0.25F))
                 .uv(0, 10).cuboid("ear1", -2.0F, -3.0F, 0.0F, 1.0F, 1.0F, 2.0F, new Dilation(0.25F))
-                .uv(6, 10).cuboid("ear2", 1.0F, -3.0F, 0.0F, 1.0F, 1.0F, 2.0F, new Dilation(0.25F)), ModelTransform.pivot(0.0F, 15.0F, -9.0F));
+                .uv(6, 10).cuboid("ear2", 1.0F, -3.0F, 0.0F, 1.0F, 1.0F, 2.0F, new Dilation(0.25F)), ModelTransform.origin(0.0F, 15.0F, -9.0F));
 
         modelPartData.addChild("body", ModelPartBuilder.create().uv(20, 0).cuboid(-2.0F, 3.0F, -8.0F, 4.0F, 16.0F, 6.0F, new Dilation(0.25F)), ModelTransform.of(0.0F, 12.0F, -10.0F, ((float)Math.PI / 2F), 0.0F, 0.0F));
 
-        modelPartData.addChild("left_front_leg", ModelPartBuilder.create().uv(40, 0).cuboid(-1.0F, 0.0F, 0.0F, 2.0F, 10.0F, 2.0F, new Dilation(0.25F)), ModelTransform.pivot(1.2F, 14.1F, -5.0F));
+        modelPartData.addChild("left_front_leg", ModelPartBuilder.create().uv(40, 0).cuboid(-1.0F, 0.0F, 0.0F, 2.0F, 10.0F, 2.0F, new Dilation(0.25F)), ModelTransform.origin(1.2F, 14.1F, -5.0F));
 
-        modelPartData.addChild("right_front_leg", ModelPartBuilder.create().uv(40, 0).cuboid(-1.0F, 0.0F, 0.0F, 2.0F, 10.0F, 2.0F, new Dilation(0.25F)), ModelTransform.pivot(-1.2F, 14.1F, -5.0F));
+        modelPartData.addChild("right_front_leg", ModelPartBuilder.create().uv(40, 0).cuboid(-1.0F, 0.0F, 0.0F, 2.0F, 10.0F, 2.0F, new Dilation(0.25F)), ModelTransform.origin(-1.2F, 14.1F, -5.0F));
 
-        modelPartData.addChild("left_hind_leg", ModelPartBuilder.create().uv(8, 13).cuboid(-1.0F, 0.0F, 1.0F, 2.0F, 6.0F, 2.0F, new Dilation(0.25F)), ModelTransform.pivot(1.1F, 18.0F, 5.0F));
+        modelPartData.addChild("left_hind_leg", ModelPartBuilder.create().uv(8, 13).cuboid(-1.0F, 0.0F, 1.0F, 2.0F, 6.0F, 2.0F, new Dilation(0.25F)), ModelTransform.origin(1.1F, 18.0F, 5.0F));
 
-        modelPartData.addChild("right_hind_leg", ModelPartBuilder.create().uv(8, 13).cuboid(-1.0F, 0.0F, 1.0F, 2.0F, 6.0F, 2.0F, new Dilation(0.25F)), ModelTransform.pivot(-1.1F, 18.0F, 5.0F));
+        modelPartData.addChild("right_hind_leg", ModelPartBuilder.create().uv(8, 13).cuboid(-1.0F, 0.0F, 1.0F, 2.0F, 6.0F, 2.0F, new Dilation(0.25F)), ModelTransform.origin(-1.1F, 18.0F, 5.0F));
 
         modelPartData.addChild("tail1", ModelPartBuilder.create().uv(0, 15).cuboid(-0.5F, 0.0F, 0.0F, 1.0F, 8.0F, 1.0F, new Dilation(0.25F)), ModelTransform.of(0.0F, 15F, 8.0F, 0.9F, 0.0F, 0.0F));
 
