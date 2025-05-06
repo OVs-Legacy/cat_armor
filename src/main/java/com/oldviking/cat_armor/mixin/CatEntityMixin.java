@@ -117,9 +117,4 @@ public abstract class CatEntityMixin extends TameableEntity {
     public boolean isBreedingItem(ItemStack stack) {
         return stack.isIn(ItemTags.CAT_FOOD);
     }
-
-    @Nullable
-    public PassiveEntity createChild(ServerWorld world, PassiveEntity entity) {
-        return null;
-    }
 }

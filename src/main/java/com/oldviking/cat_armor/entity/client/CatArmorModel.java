@@ -45,7 +45,7 @@ public class CatArmorModel extends CatEntityModel {
 
         modelPartData.addChild("tail1", ModelPartBuilder.create().uv(0, 15).cuboid(-0.5F, 0.0F, 0.0F, 1.0F, 8.0F, 1.0F, new Dilation(0.25F)), ModelTransform.of(0.0F, 15F, 8.0F, 0.9F, 0.0F, 0.0F));
 
-        modelPartData.addChild("tail2", ModelPartBuilder.create().uv(4, 15).cuboid(-0.5F, 0.0F, 0.0F, 1.0F, 8.0F, 1.0F, new Dilation(0.25F)), ModelTransform.of(0.0F, 20F, 14.0F, 0.0F, 0.0F, 0.0F));
+        modelPartData.addChild("tail2", ModelPartBuilder.create().uv(4, 15).cuboid(-0.5F, 0.0F, 0.0F, 1.0F, 8.0F, 1.0F, new Dilation(0.24F)), ModelTransform.of(0.0F, 20F, 14.0F, 0.0F, 0.0F, 0.0F));
 
         return TexturedModelData.of(modelData, 64, 32);
     }
