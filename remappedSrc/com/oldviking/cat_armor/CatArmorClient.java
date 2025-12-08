@@ -4,13 +4,10 @@ import com.oldviking.cat_armor.entity.client.CatArmorModel;
 import com.oldviking.cat_armor.entity.client.CatArmorRenderer;
 import com.oldviking.cat_armor.entity.layer.ModModelLayers;
 import net.fabricmc.api.ClientModInitializer;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
 import net.minecraft.entity.EntityType;
 
-@Environment(EnvType.CLIENT)
 public class CatArmorClient implements ClientModInitializer {
     @Override
     public void onInitializeClient() {

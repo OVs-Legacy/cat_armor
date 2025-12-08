@@ -16,10 +16,13 @@ import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.ActionResult;
+import net.minecraft.util.DyeColor;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
+import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -40,7 +43,7 @@ public abstract class CatEntityMixin extends TameableEntity {
             target = "Lnet/minecraft/entity/passive/CatEntity;isOwner(Lnet/minecraft/entity/LivingEntity;)Z",
             shift = At.Shift.AFTER), cancellable = true)
     private void applyCatAmor(PlayerEntity player, Hand hand, CallbackInfoReturnable<ActionResult> cir) {
-        if (!this.getEntityWorld().isClient()) {
+        if (!this.getWorld().isClient) {
             if (player.getStackInHand(hand).getItem() == ModItems.CAT_ARMOR && this.getBodyArmor().isEmpty() && !this.isBaby() && isOwner(player)) {
                 this.equipBodyArmor(player.getStackInHand(hand).copyWithCount(1));
                 player.getStackInHand(hand).decrementUnlessCreative(1, player);
@@ -70,11 +73,11 @@ public abstract class CatEntityMixin extends TameableEntity {
 
     @Unique
     private ActionResult removeCatArmor(ItemStack itemStack, PlayerEntity player, Hand hand) {
-        itemStack.damage(1, player, hand);
+        itemStack.damage(1, player, getSlotForHand(hand));
         this.playSoundIfNotSilent(SoundEvents.ITEM_ARMOR_UNEQUIP_WOLF);
         ItemStack itemStack2 = this.getBodyArmor();
         this.equipBodyArmor(ItemStack.EMPTY);
-        World world = this.getEntityWorld();
+        World world = this.getWorld();
         if (world instanceof ServerWorld serverWorld) {
             this.dropStack(serverWorld, itemStack2);
         }
@@ -104,7 +107,7 @@ public abstract class CatEntityMixin extends TameableEntity {
     @Unique
     private void crackArmor() {
         this.playSoundIfNotSilent(SoundEvents.ITEM_WOLF_ARMOR_CRACK);
-        World world = this.getEntityWorld();
+        World world = this.getWorld();
         if (world instanceof ServerWorld serverWorld) {
             serverWorld.spawnParticles(new ItemStackParticleEffect(ParticleTypes.ITEM, Items.ARMADILLO_SCUTE.getDefaultStack()),
                     this.getX(), this.getY() + 1, this.getZ(), 20, 0.2, 0.1, 0.2, 0.1);

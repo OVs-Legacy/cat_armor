@@ -18,12 +18,12 @@
 		"main": [
 			"com.oldviking.cat_armor.CatArmor"
 		],
-		"fabric-datagen": [
-			"com.oldviking.cat_armor.CatArmorDataGenerator"
-		],
 		"client": [
 			"com.oldviking.cat_armor.CatArmorClient"
 		],
+        "fabric-datagen": [
+          "com.oldviking.cat_armor.CatArmorDataGenerator"
+        ],
 		"mm:early_risers": [
 			"com.oldviking.cat_armor.EarlyRiser"
 		]

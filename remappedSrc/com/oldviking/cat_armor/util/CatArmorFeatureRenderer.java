@@ -9,7 +9,6 @@ import net.minecraft.client.render.OverlayTexture;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.VertexConsumerProvider;
-import net.minecraft.client.render.command.OrderedRenderCommandQueue;
 import net.minecraft.client.render.entity.equipment.EquipmentModel;
 import net.minecraft.client.render.entity.equipment.EquipmentRenderer;
 import net.minecraft.client.render.entity.feature.FeatureRenderer;
@@ -44,29 +43,8 @@ public class CatArmorFeatureRenderer extends FeatureRenderer<CatEntityRenderStat
         this.equipmentRenderer = equipmentRenderer;
     }
 
-    private void renderCracks(MatrixStack matrixStack, OrderedRenderCommandQueue queue, int light, ItemStack itemStack, CatEntityModel catEntityModel, CatEntityRenderState state) {
-        Cracks.CrackLevel crackLevel = Cracks.WOLF_ARMOR.getCrackLevel(itemStack);
-        if (crackLevel != Cracks.CrackLevel.NONE) {
-            Identifier identifier = CRACK_TEXTURES.get(crackLevel);
-            queue.submitModel(
-                    model,
-                    state,
-                    matrixStack,
-                    RenderLayer.createArmorTranslucent(identifier),
-                    light,
-                    OverlayTexture.DEFAULT_UV,
-                    state.outlineColor,
-                    null
-            );
-        }
-    }
-
-    static {
-        CRACK_TEXTURES = Map.of(Cracks.CrackLevel.LOW, Identifier.of(CatArmor.MOD_ID,"textures/entity/cat/cat_armor_crackiness_low.png"), Cracks.CrackLevel.MEDIUM, Identifier.of(CatArmor.MOD_ID,"textures/entity/cat/cat_armor_crackiness_medium.png"), Cracks.CrackLevel.HIGH, Identifier.of(CatArmor.MOD_ID,"textures/entity/cat/cat_armor_crackiness_high.png"));
-    }
-
     @Override
-    public void render(MatrixStack matrices, OrderedRenderCommandQueue queue, int light, CatEntityRenderState state, float limbAngle, float limbDistance) {
+    public void render(MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, CatEntityRenderState state, float limbAngle, float limbDistance) {
         ItemStack bodyArmor = ((CatEntityRenderStateAccessor) state).getBodyArmor();
         EquippableComponent equippableComponent = bodyArmor.get(DataComponentTypes.EQUIPPABLE);
         if(equippableComponent != null && equippableComponent.assetId().isPresent()) {
@@ -75,18 +53,21 @@ public class CatArmorFeatureRenderer extends FeatureRenderer<CatEntityRenderStat
             // This should be done differently, right?
             matrices.scale(0.8F, 0.8F, 0.8F);
             matrices.translate(0.0F, 0.38F, 0.0F);
-            this.equipmentRenderer.render(
-                    ClassTinkerers.getEnum(EquipmentModel.LayerType.class, "CAT_BODY"),
-                    CAT_ARMOR_KEY,
-                    catEntityModel,
-                    state,
-                    bodyArmor,
-                    matrices,
-                    queue,
-                    light,
-                    state.outlineColor
-            );
-            this.renderCracks(matrices, queue, light, bodyArmor, catEntityModel, state);
+            this.equipmentRenderer.render(ClassTinkerers.getEnum(EquipmentModel.LayerType.class, "CAT_BODY"), CAT_ARMOR_KEY, catEntityModel, bodyArmor, matrices, vertexConsumers, light);
+            this.renderCracks(matrices, vertexConsumers, light, bodyArmor, catEntityModel);
         }
+    }
+
+    private void renderCracks(MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider, int light, ItemStack itemStack, CatEntityModel catEntityModel) {
+        Cracks.CrackLevel crackLevel = Cracks.WOLF_ARMOR.getCrackLevel(itemStack);
+        if (crackLevel != Cracks.CrackLevel.NONE) {
+            Identifier identifier = CRACK_TEXTURES.get(crackLevel);
+            VertexConsumer vertexConsumer = vertexConsumerProvider.getBuffer(RenderLayer.createArmorTranslucent(identifier));
+            model.render(matrixStack, vertexConsumer, light, OverlayTexture.DEFAULT_UV);
+        }
+    }
+
+    static {
+        CRACK_TEXTURES = Map.of(Cracks.CrackLevel.LOW, Identifier.of(CatArmor.MOD_ID,"textures/entity/cat/cat_armor_crackiness_low.png"), Cracks.CrackLevel.MEDIUM, Identifier.of(CatArmor.MOD_ID,"textures/entity/cat/cat_armor_crackiness_medium.png"), Cracks.CrackLevel.HIGH, Identifier.of(CatArmor.MOD_ID,"textures/entity/cat/cat_armor_crackiness_high.png"));
     }
 }
